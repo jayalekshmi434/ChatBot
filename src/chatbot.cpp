@@ -37,15 +37,82 @@ ChatBot::~ChatBot()
     // deallocate heap memory
     if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
     {
-        delete _image;
+         delete _image;
         _image = NULL;
     }
 }
 
 //// STUDENT CODE
 ////
+//2. copy constructor
+ChatBot ::ChatBot(const ChatBot &source){
 
-////
+    std::cout << "Chat Bot Cop Constructor" <<std::endl;
+    _image=new wxBitmap();
+    *_image=*source._image;
+    _currentNode=source._currentNode;
+    _rootNode=source._rootNode;
+    _chatLogic=source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
+
+}   
+
+// 3. Assignment copy 
+
+ChatBot&  ChatBot :: operator =(const ChatBot &source){
+    std::cout << " Chat Bot Copy Assignment Operator" << std::endl;
+    if(this == &source){
+        return *this;
+    }
+
+    delete _image;
+    _image=new wxBitmap();
+    _image=source._image;
+    _currentNode=source._currentNode;
+    _rootNode=source._rootNode;
+    _chatLogic=source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
+    return *this;
+
+}
+
+//4. Move constructor
+
+ChatBot::ChatBot(ChatBot &&source){
+
+    std::cout << "Chat Bot Move constructor " << std::endl;
+    _image=source._image;
+    _currentNode=source._currentNode;
+    _rootNode=source._rootNode;
+    _chatLogic=source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
+    source._image=NULL;
+    source._currentNode=nullptr;
+    source._rootNode=nullptr;
+    source._chatLogic=nullptr;
+}
+// 5. Move Assignment operator
+ChatBot& ChatBot::operator=(ChatBot &&source){
+    std::cout << " Chat Bot Move Assignment Operator"<<std::endl;
+    if(this == &source){
+        return *this;
+    }
+
+    delete _image;
+    _image=new wxBitmap();
+    _image=source._image;
+    _currentNode=source._currentNode;
+    _rootNode=source._rootNode;
+    _chatLogic=source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
+    source._image=NULL;
+    source._currentNode=nullptr;
+    source._rootNode=nullptr;
+    source._chatLogic=nullptr;
+    return *this;
+
+}
+
 //// EOF STUDENT CODE
 
 void ChatBot::ReceiveMessageFromUser(std::string message)
