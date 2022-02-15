@@ -67,7 +67,7 @@ ChatBot&  ChatBot :: operator =(const ChatBot &source){
 
     delete _image;
     _image=new wxBitmap();
-    _image=source._image;
+    *_image=*source._image;
     _currentNode=source._currentNode;
     _rootNode=source._rootNode;
     _chatLogic=source._chatLogic;
